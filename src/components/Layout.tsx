@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Calendar } from "lucide-react";
+import AdComponent from "./AdComponent";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -32,6 +33,15 @@ const Layout = ({ children }: LayoutProps) => {
       </header>
       <main className="flex-1">
         <div className="container py-6 md:py-12">
+          {/* Top Ad Banner */}
+          <div className="mb-6">
+            <AdComponent 
+              adSlot="1234567890" 
+              adFormat="horizontal" 
+              className="w-full overflow-hidden mx-auto max-w-4xl" 
+            />
+          </div>
+          
           <div
             className={cn(
               "animate-fade-in grid gap-6 md:gap-8",
@@ -39,6 +49,15 @@ const Layout = ({ children }: LayoutProps) => {
             )}
           >
             {children}
+          </div>
+          
+          {/* Bottom Ad Banner */}
+          <div className="mt-8">
+            <AdComponent 
+              adSlot="0987654321" 
+              adFormat="rectangle" 
+              className="w-full overflow-hidden mx-auto max-w-4xl" 
+            />
           </div>
         </div>
       </main>
