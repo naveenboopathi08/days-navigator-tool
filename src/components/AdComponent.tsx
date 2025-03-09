@@ -8,11 +8,11 @@ interface AdComponentProps {
 }
 
 const AdComponent = ({ adSlot, adFormat = "auto", className }: AdComponentProps) => {
-  const adRef = useRef<HTMLDivElement>(null);
+  const adContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Only attempt to load ads if we're in production environment
-    if (process.env.NODE_ENV === "production" && adRef.current) {
+    if (process.env.NODE_ENV === "production" && adContainerRef.current) {
       try {
         const adsbygoogle = window.adsbygoogle || [];
         adsbygoogle.push({});
@@ -23,7 +23,7 @@ const AdComponent = ({ adSlot, adFormat = "auto", className }: AdComponentProps)
   }, []);
 
   return (
-    <div className={`ad-container ${className || ""}`}>
+    <div className={`ad-container ${className || ""}`} ref={adContainerRef}>
       <ins
         className="adsbygoogle"
         style={{ display: "block" }}
@@ -31,7 +31,6 @@ const AdComponent = ({ adSlot, adFormat = "auto", className }: AdComponentProps)
         data-ad-slot={adSlot}
         data-ad-format={adFormat}
         data-full-width-responsive="true"
-        ref={adRef}
       ></ins>
       <div className="text-xs text-muted-foreground text-center mt-1">Advertisement</div>
     </div>
