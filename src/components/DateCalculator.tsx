@@ -63,6 +63,7 @@ const DateCalculator = () => {
                   selected={startDate}
                   onSelect={setStartDate}
                   initialFocus
+                  className="pointer-events-auto"
                 />
               </PopoverContent>
             </Popover>
@@ -89,21 +90,15 @@ const DateCalculator = () => {
                   selected={endDate}
                   onSelect={setEndDate}
                   initialFocus
+                  className="pointer-events-auto"
                 />
               </PopoverContent>
             </Popover>
           </div>
         </div>
 
-        <Button 
-          className="w-full font-medium transition-all duration-300 hover:shadow-md" 
-          onClick={calculateDaysDifference}
-        >
-          Calculate Days
-        </Button>
-
         <div className="mt-4 p-4 rounded-lg bg-secondary/50 text-center">
-          <div className="text-sm text-muted-foreground mb-1">Result</div>
+          <div className="text-sm text-muted-foreground mb-1">Result (Updates Automatically)</div>
           <div className="text-3xl font-semibold text-primary animate-fade-in">
             {daysDifference !== null ? (
               <>

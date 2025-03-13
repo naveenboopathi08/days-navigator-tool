@@ -1,6 +1,5 @@
 
-import React, { useState } from "react";
-import { isLeapYear } from "date-fns";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -14,15 +13,25 @@ import CalculatorCard from "./CalculatorCard";
 
 const LeapYearChecker = () => {
   const [year, setYear] = useState<number>(new Date().getFullYear());
-  const [isLeap, setIsLeap] = useState<boolean | null>(
-    isLeapYear(new Date().getFullYear())
-  );
+  const [isLeap, setIsLeap] = useState<boolean | null>(null);
 
   // Generate array of years from current year - 100 to current year + 100
   const years = Array.from({ length: 201 }, (_, i) => {
     const year = new Date().getFullYear() - 100 + i;
     return year;
   });
+
+  // Manual leap year calculation function
+  const checkLeapYear = (year: number): boolean => {
+    // Leap year is divisible by 4
+    // But if it's a century (divisible by 100), it must also be divisible by 400
+    return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+  };
+
+  // Check leap year on mount and when year changes
+  useEffect(() => {
+    handleCheck();
+  }, [year]);
 
   const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputYear = parseInt(e.target.value);
@@ -33,7 +42,7 @@ const LeapYearChecker = () => {
 
   const handleCheck = () => {
     if (year) {
-      setIsLeap(isLeapYear(new Date(year, 0, 1)));
+      setIsLeap(checkLeapYear(year));
     }
   };
 
@@ -74,15 +83,8 @@ const LeapYearChecker = () => {
           </div>
         </div>
 
-        <Button 
-          className="w-full font-medium transition-all duration-300 hover:shadow-md" 
-          onClick={handleCheck}
-        >
-          Check Year
-        </Button>
-
         <div className="mt-4 p-4 rounded-lg bg-secondary/50 text-center">
-          <div className="text-sm text-muted-foreground mb-1">Result</div>
+          <div className="text-sm text-muted-foreground mb-1">Result (Updates Automatically)</div>
           <div className="text-3xl font-semibold animate-fade-in">
             {isLeap !== null ? (
               <>
