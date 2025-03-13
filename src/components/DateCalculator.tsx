@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { format, differenceInDays } from "date-fns";
 import { Button } from "@/components/ui/button";
@@ -19,10 +19,19 @@ const DateCalculator = () => {
   );
   const [daysDifference, setDaysDifference] = useState<number | null>(7);
 
-  const handleCalculate = () => {
+  // Calculate days difference automatically when dates change
+  useEffect(() => {
+    if (startDate && endDate) {
+      calculateDaysDifference();
+    }
+  }, [startDate, endDate]);
+
+  const calculateDaysDifference = () => {
     if (startDate && endDate) {
       const difference = differenceInDays(endDate, startDate);
       setDaysDifference(difference);
+    } else {
+      setDaysDifference(null);
     }
   };
 
@@ -88,7 +97,7 @@ const DateCalculator = () => {
 
         <Button 
           className="w-full font-medium transition-all duration-300 hover:shadow-md" 
-          onClick={handleCalculate}
+          onClick={calculateDaysDifference}
         >
           Calculate Days
         </Button>
